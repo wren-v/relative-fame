@@ -1,0 +1,57 @@
+def parseCity(line):
+    output = "" 
+    for char in line:
+        if(char == ','):
+            output += ')'
+            return "(" + output[11:]
+        output += char
+
+def parseName(line):
+    output = ""
+    for char in line:
+        if(char == ']' or char == '|'):
+            if (char == ')'):
+                output += char
+            return output[3:]
+        output += char
+
+def createList():
+    file = open('CitiesInIowa.xml', 'r')
+    count = 0
+    notableArr = [[]]
+    cityArr = []
+    cityName = ""
+    addPeople = False
+
+    for line in file:
+        count = count + 1
+        if ("<title>" in line and ("Category:" not in line)):
+            if (len(cityArr) > 1):
+                notableArr.append(cityArr)
+            cityArr = []
+            addPeople = False
+            cityName = parseCity(line)
+            cityArr = [cityName]
+        if ("==" in line and "Notable" in line):
+            addPeople = True
+        if ("==" in line and not "Notable" in line):
+            addPeople = False
+        if((addPeople) and ("*[[" in line) and ("Category:" not in line) and ("File:" not in line) and ("NULLIFIED" not in line) and ("END OF NOTICE" not in line)):
+            cityArr.append(parseName(line))
+            
+    file.close()
+    return notableArr
+
+def outputList(notableArr):
+    file = open('output.xml', 'w')
+
+    for array in notableArr:
+        for lis in array:
+            file.write(lis)
+            file.write(', ')
+        file.write('\n')
+    file.close()
+
+#Create and Output List
+notableArr = createList()
+outputList(notableArr)
