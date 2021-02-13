@@ -26,7 +26,7 @@ The source of data for this project Wikipedia's Special Export, which exports th
 
 1. Clone this repo (for help see this [tutorial](https://help.github.com/articles/cloning-a-repository/)).
 2. Raw Data for Iowa is [here](CitiesInIowa.xml) within this repo.    
-3. Data processing/transformation scripts are being kept [here](MineCities)
+3. Data processing/transformation scripts are being kept [here](mineCities.py)
 
 ## Contact
 * Feel free to contact me with any questions about this project. My email is "wvogelschmidt" + "@" + "colgate.edu"
