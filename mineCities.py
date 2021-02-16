@@ -59,16 +59,25 @@ def createList():
     return notableArr
 
 def getPageViews(lis):
-    article = wikipedia.page(lis).url
-    article = article[30:]
-    url = "https://en.wikipedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/all-agents/" + article + "/monthly/20210101/20210201"
-    print(url)
-    heads = {'User-Agent': '(wvogelschmidt@colgate.edu)'}
-    if (requests.get(url, headers=heads) == 200):
-        resp = requests.get(url, headers=heads)
+    headers = {'User-Agent': '(wvogelschmidt@colgate.edu)'}
+
+    try:
+        article = wikipedia.page(lis).url
+        article = article[30:]
+        url = "https://wikimedia.org/api/rest_v1/metrics/pageviews/per-article/en.wikipedia.org/all-access/user/" + article + "/monthly/20210101/20210201"
+    except wikipedia.exceptions.PageError:
+        print("Page Error LIS: " + lis)
+        return 0
+    except wikipedia.exceptions.DisambiguationError:
+        print("Disambiguation Error LIS: " + lis)
+        return 0
+    try:
+        resp = requests.get(url, headers=headers)
         rd = resp.json()
+        print("success url: " + url)
         return rd['items'][0]['views']
-    else:
+    except wikipedia.exceptions.DisambiguationError:
+        print("Disambiguation Error URL: " + url)
         return 0
 
 

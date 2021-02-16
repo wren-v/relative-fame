@@ -12,6 +12,7 @@ The purpose of this project is to find which cities are connected to the least f
 
 ### Technologies
 * Python
+* REST API
 * XML
 * Tableau
 
